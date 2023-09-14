@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.calDate {
+				margin-top: 100px;
+				margin-left: 400px;
+			}
+			.dropDown {
+				margin-left: 500px;
+			}
+			.submitButton {
+				margin-left: 550px;
+			}
+		</style>	
+	</head>
+
+	<body>
+			<div class="calDate">
+			<form id="form">
+				<!-- Calendar1 -->
+				Start Date <input type="date" id="calendar1" />
+
+				<!-- Calendar2 -->
+				End Date <input type="date" id="calendar2" />
+				<br><br>
+			</div>
+			<div class="dropDown">
+				Dropdown1
+				<!-- Dropdown1 -->
+				<select id="dropdown1">
+					<option value="All">All</option>
+					<option value="1st">1st</option>
+					<option value="2nd">2nd</option>
+					<option value="3rd">3rd</option>
+					<option value="4th">4th</option>
+					<option value="5th">5th</option>
+					<option value="6th">6th</option>
+					<option value="7th">7th</option>
+				</select>
+				<br>
+
+				Dropdown2
+				<!-- Dropdown2 -->
+				<select id="dropdown2">
+					<option value="Sunday">Sunday</option>
+					<option value="Monday">Monday</option>
+					<option value="Tuesday">Tuesday</option>
+					<option value="Wednesday">Wednesday</option>
+					<option value="Thursday">Thursday</option>
+					<option value="Friday">Friday</option>
+					<option value="Saturday">Saturday</option>
+				</select>
+				<br>
+				
+
+				Dropdown3
+				<!-- Dropdown3 -->
+				<select id="dropdown3">
+					<option value="Week">Week</option>
+					<option value="Month">Month</option>
+				</select>
+				<br />
+		</div>
+		<div class="submitButton">
+				<br>
+				<button id="submit">Submit</button>
+		</form>
+			<br><br>
+			OUTPUT :- 
+			<br>
+			<div id="result"></div>
+				</div>
+		<script>
+			const weekDays = [
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday",
+			];
+			const dateInput1 = document.getElementById("calendar1");
+			const dateInput2 = document.getElementById("calendar2");
+
+			dateInput1.value = formatDate("today");
+			dateInput2.value = formatDate("next year");
+
+			function padTo2Digits(num) {
+				return num.toString().padStart(2, "0");
+			}
+
+			function formatDate(day) {
+				date = new Date();
+				switch (day) {
+					case "today":
+						return [
+							date.getFullYear(),
+							padTo2Digits(date.getMonth() + 1),
+							padTo2Digits(date.getDate()),
+						].join("-");
+					case "next year":
+						return [
+							date.getFullYear() + 1,
+							padTo2Digits(date.getMonth() + 1),
+							padTo2Digits(date.getDate()),
+						].join("-");
+				}
+			}
+			const startDate = new Date();
+			console.log({ startDate });
+			const endDate = new Date();
+			console.log({ endDate });
+
+			const dd1 = document.getElementById("dropdown1");
+
+			const dd2 = document.getElementById("dropdown2");
+
+			const dd3 = document.getElementById("dropdown3");
+
+			document.getElementById("form").addEventListener("submit", (e) => {
+				e.preventDefault();
+				document.getElementById("result").innerText="";
+				console.log("formSubmit() running");
+
+
+				const startDateInput = document.getElementById("calendar1");
+				const endDateInput = document.getElementById("calendar2");
+				
+				const startDate = new Date(startDateInput.value);
+				const endDate = new Date(endDateInput.value);
+
+				if (startDate > endDate) {
+					alert("End date cannot be smaller than Start date ");
+					return;
+				}
+
+				for (
+					var d = new Date(startDate);
+					d <= new Date(endDate);
+					d.setDate(d.getDate() + 1)
+				) {
+					if (dd1.value === "All") {
+						const day = weekDays.indexOf(dd2.value);
+						if (d.getDay() === day) {	
+							document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+						}
+					}
+
+				if (dd1.value === "1st") {
+					const day = weekDays.indexOf(dd2.value);
+					if (d.getDay() === day) {
+						if (dd3.value === "Month") {
+							if (d.getDate() < 7) {
+								
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+							}	
+						} else if (dd3.value === "Week") {
+								
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+						}
+					}
+				}
+				
+				if (dd1.value === "2nd") {
+					const day = weekDays.indexOf(dd2.value);
+					if (d.getDay() === day) {
+						if (dd3.value === "Month") {
+							if (d.getDate() > 6 && d.getDate() < 13) {
+								//console.log(d, d.toLocaleDateString(), "2nd of month");
+							
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+
+							}
+						} else if (dd3.value === "Week") {
+							if (d.getDate() > 6 && d.getDate() < 13) {
+								//console.log(d, d.toLocaleDateString(), "2nd of month");
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+							}
+						}
+					}
+				}
+				if (dd1.value === "3rd") {
+					const day = weekDays.indexOf(dd2.value);
+					if (d.getDay() === day) {
+						if (dd3.value === "Month") {
+							if (d.getDate() > 6 && d.getDate() < 13) {
+								//console.log(d, d.toLocaleDateString(), "2nd of month");
+							
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+
+							}
+						} else if (dd3.value === "Week") {
+							if (d.getDate() > 6 && d.getDate() < 13) {
+								//console.log(d, d.toLocaleDateString(), "2nd of month");
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+							}
+						}
+					}
+				}
+
+				if (dd1.value === "4th") {
+					const day = weekDays.indexOf(dd2.value);
+					if (d.getDay() === day) {
+						if (dd3.value === "Month") {
+							if (d.getDate() > 6 && d.getDate() < 13) {
+								//console.log(d, d.toLocaleDateString(), "2nd of month");
+							
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+
+							}
+						} else if (dd3.value === "Week") {
+							if (d.getDate() > 6 && d.getDate() < 13) {
+								//console.log(d, d.toLocaleDateString(), "2nd of month");
+								document.getElementById("result").innerText = document.getElementById("result").innerText + "\n" + d.toLocaleDateString();
+							}
+						}
+					}
+				}
+				}
+			});
+
+			document.getElementById("calendar1").setAttribute("value", startDate);
+		</script>
+	</body>
+</html>
